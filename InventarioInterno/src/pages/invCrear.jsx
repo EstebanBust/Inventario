@@ -1,5 +1,7 @@
+import {InvCrear} from '../components/InvCrear'
+
 export function Crear(){
     return(
-      <div>Crear</div>
+      <InvCrear/>
       )  
   }

@@ -39,27 +39,27 @@ class ArmaPuño(models.Model):
 
 class Camara(models.Model):
     numero_serie = models.CharField(max_length=50, primary_key=True)
-    nombre = models.CharField(max_length=100)
-    resolucion = models.CharField(max_length=20)
+    modelo = models.CharField(max_length=100, null=True)
+    resolucion = models.CharField(max_length=20, null=True)
     
     def __str__(self):
-        return self.nombre
+        return self.numero_serie
     
 class Escopeta(models.Model):
     numero_serie = models.CharField(max_length=50, primary_key=True)
-    nombre = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=20)
+    marca = models.CharField(max_length=100, null=True)
+    modelo = models.CharField(max_length=100, null=True)
     
     def __str__(self):
-        return self.nombre
+        return self.numero_serie
     
 class CarabinaLanzaGases(models.Model):
     numero_serie = models.CharField(max_length=50, primary_key=True)
-    nombre = models.CharField(max_length=100)
-    tipo = models.CharField(max_length=20)
+    marca = models.CharField(max_length=100, null=True)
+    modelo = models.CharField(max_length=100, null=True)
     
     def __str__(self):
-        return self.nombre
+        return self.numero_serie
 
 class Funcionario(models.Model):
     nombre = models.CharField(max_length=100)
@@ -72,7 +72,7 @@ class Funcionario(models.Model):
         return f"{self.grado} {self.nombre}"
     
 class Registro(models.Model):
-    fecha_registro = models.DateTimeField(default=timezone.now, editable=False)
+    fecha_registro = models.DateTimeField(default=timezone.now, editable=False, null=True)
     funcionario = models.ForeignKey(Funcionario, on_delete=models.CASCADE)
     servicio = models.CharField(max_length=100)
     arma_puno = models.OneToOneField(ArmaPuño, on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllReg } from '../api/inv.api';
+import { RegCard } from './RegCard';
 
 export function InvList() {
     const [registros, setRegistros] = useState([]);
@@ -26,12 +27,8 @@ export function InvList() {
     return (
         <div>
             <h1>Lista de Registros</h1>
-            {registros.map((registro, index) => (
-                <div key={index}>
-                    <h2>Servicio: {registro.servicio}</h2>
-                    <p>Funcionario: {registro.funcionario_nombre}</p>
-                    {/* Agrega más información de registro según tus necesidades */}
-                </div>
+            {registros.map((registro) => (
+                <RegCard key={registro.id} reg={registro} />
             ))}
         </div>
     );

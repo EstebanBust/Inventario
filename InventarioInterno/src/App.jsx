@@ -13,6 +13,7 @@ function App() {
         <Route path="/" element={<Navigate to="/inventario" />} />
         <Route path='/inventario' element={<Listar />} />
         <Route path='/inventario/crear' element={<Crear />} />
+        <Route path='/inventario/:id' element={<Crear/>}/>
       </Routes>
     </BrowserRouter>
   )
