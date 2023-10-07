@@ -3,12 +3,15 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from .serializer import *
 from .models import *
-from django.http import JsonResponse
+
 
 
 class InventarioView(viewsets.ModelViewSet):
-    queryset = Registro.objects.all()
     serializer_class = InventarioSerializer
+
+    def get_queryset(self):
+        # Filtra los registros donde registro_finalizado sea False
+        return Registro.objects.filter(finalizado=False)
 
 
 class ArmaView(viewsets.ModelViewSet):

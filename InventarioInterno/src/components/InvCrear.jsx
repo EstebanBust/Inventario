@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getArma, getCamara, getCarabina, getEscopeta, getFuncionario, postReg, deleteReg, putUpdate, getRegistroPorId } from '../api/inv.api';
-import { useNavigate, useParams } from 'react-router-dom';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 
 export function InvCrear() {
     const [funcionarios, setFuncionarios] = useState([]);
@@ -11,8 +11,8 @@ export function InvCrear() {
     const [carabinas, setCarabinas] = useState([]);
 
     const params = useParams();
-    console.log(params.funcionario)
     const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm();
 
     useEffect(() => {
         // Realizar una solicitud al servidor para obtener datos de funcionarios, armas, escopetas, cámaras y carabinas
@@ -67,15 +67,17 @@ export function InvCrear() {
         fetchData();
     }, [params.id]);
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    
 
     const onSubmit = handleSubmit(async (data) => {
         if (params.id) {
             putUpdate(params.id, data)
-
+            navigate("/inventario");
         } else {
             try {
                 const response = await postReg(data);
+                console.log(data);
+                navigate("/inventario");
 
             } catch (error) {
                 console.error(error);
@@ -85,7 +87,7 @@ export function InvCrear() {
 
 
     return (
-        <div>
+        <div class="container bg-dark text-light">
             <form onSubmit={onSubmit}>
                 <div>
                     <label htmlFor="servicio">Servicio:</label>
@@ -155,11 +157,10 @@ export function InvCrear() {
 
                 <div>
                     <label htmlFor="extra">Otro cargo(requerido):</label>
-                    <textarea {...register("extra")} id="extra" cols="30" rows="10" placeholder="Otro cargo"></textarea>
+                    <textarea {...register("extra")} id="extra" cols="30" rows="7" placeholder="Otro cargo"></textarea>
                     {errors.extra && <span>Este campo es requerido</span>}
-                    {console.log(errors.extra)}
                 </div>
-
+                {params.id && <p><label htmlFor="finalizado">Marcar como finalizado?:</label><input {...register("finalizado")} type='checkbox' id='finalizado'/></p>}
                 <button type="submit">Guardar</button>
                 {params.id && <button onClick={() => {
                     const accepted = window.confirm('estas seguro?')
