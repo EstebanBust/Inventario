@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { getArma, getCamara, getCarabina, getEscopeta, getFuncionario, postReg, deleteReg } from '../api/inv.api';
+import { getArma, getCamara, getCarabina, getEscopeta, getFuncionario, postReg, deleteReg, putUpdate, getRegistroPorId } from '../api/inv.api';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export function InvCrear() {
@@ -11,6 +11,7 @@ export function InvCrear() {
     const [carabinas, setCarabinas] = useState([]);
 
     const params = useParams();
+    console.log(params.funcionario)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,26 +32,54 @@ export function InvCrear() {
             } catch (error) {
                 console.error('Error al obtener datos del servidor:', error);
             }
+            if (params.id) {
+                const response = await getRegistroPorId(params.id);
+                console.log(response);
+
+                // Llenar los campos del formulario con los valores obtenidos
+                const {
+                    servicio,
+                    funcionario,
+                    arma_puno,
+                    escopeta,
+                    escopeta_relacion,
+                    camara,
+                    camara_relacion,
+                    carabina_lanza_gases,
+                    carabina_lanza_gases_relacion,
+                    extra
+                } = response.data;
+
+                // Usa los nombres de los campos exactamente como los registraste en useForm
+                setValue('servicio', servicio);
+                setValue("funcionario", funcionario);
+                setValue("arma_puno", arma_puno);
+                setValue("escopeta", escopeta);
+                setValue("escopeta_relacion", escopeta_relacion);
+                setValue("camara", camara);
+                setValue("camara_relacion", camara_relacion);
+                setValue("carabina_lanza_gases", carabina_lanza_gases);
+                setValue("carabina_lanza_gases_relacion", carabina_lanza_gases_relacion);
+                setValue("extra", extra);
+            }
         }
 
         fetchData();
-    }, []);
+    }, [params.id]);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const onSubmit = handleSubmit(async (data) => {
-        try {
-            /*const csrfToken = register("csrfmiddlewaretoken").ref.value;
+        if (params.id) {
+            putUpdate(params.id, data)
 
-            data.csrfmiddlewaretoken = csrfToken;*/
+        } else {
+            try {
+                const response = await postReg(data);
 
-            console.log(data);
-
-            const response = await postReg(data);
-
-            console.log(response.data);
-        } catch (error) {
-            console.error(error);
+            } catch (error) {
+                console.error(error);
+            }
         }
     });
 
@@ -78,7 +107,7 @@ export function InvCrear() {
 
                 <div>
                     <label htmlFor="arma">Arma:</label>
-                    <select {...register("arma_puno")} id="arma">
+                    <select {...register("arma_puno")} id="arma_puno">
                         <option value="">-----------</option>
                         {armas.map((arma) => (
                             <option key={arma.numero_serie} value={arma.numero_serie}>
@@ -114,7 +143,7 @@ export function InvCrear() {
 
                 <div>
                     <label htmlFor="carabina">¿Tiene Carabina?:</label>
-                    <input type='checkbox' id='carabina'{...register("carabina_lanza_gases")}></input>
+                    <input type='checkbox' id='carabina_lanza_gases'{...register("carabina_lanza_gases")}></input>
                     <select {...register("carabina_lanza_gases_relacion")} id="carabina_lanza_gases_relacion">
                         <option value="">-----------</option>
                         {carabinas.map((arma) => (
@@ -125,15 +154,16 @@ export function InvCrear() {
                 </div>
 
                 <div>
-                    <label htmlFor="extra">Otro cargo:</label>
+                    <label htmlFor="extra">Otro cargo(requerido):</label>
                     <textarea {...register("extra")} id="extra" cols="30" rows="10" placeholder="Otro cargo"></textarea>
                     {errors.extra && <span>Este campo es requerido</span>}
+                    {console.log(errors.extra)}
                 </div>
 
                 <button type="submit">Guardar</button>
                 {params.id && <button onClick={() => {
                     const accepted = window.confirm('estas seguro?')
-                    if(accepted){
+                    if (accepted) {
                         deleteReg(params.id)
                         navigate("/inventario/")
                     }
