@@ -25,7 +25,7 @@ export function InvList() {
     }, []);
 
     return (
-        <div>
+        <div className="container">
             <h1>Lista de Registros</h1>
             {registros.map((registro) => (
                 <RegCard key={registro.id} reg={registro} />

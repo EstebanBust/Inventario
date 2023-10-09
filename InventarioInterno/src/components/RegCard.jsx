@@ -4,12 +4,13 @@ export function RegCard({ reg }) {
     const navigate = useNavigate()
 
     return (
-        <div key={reg.id} style={{ background: "#000000" }} onClick={() => {
+        <div className="card bg-success" key={reg.id} style={{ background: "#000000" }} onClick={() => {
             navigate('/inventario/' + reg.id)
         }}>
-            <h2>Servicio: {reg.servicio}</h2>
-            <p>Funcionario: {reg.funcionario_nombre}</p>
-            <hr />
+            <div className="card-body">
+                <h2 className="card-tittle">Servicio: {reg.servicio}</h2>
+                <p className="card-text">Funcionario: {reg.funcionario_nombre}</p>
+            </div>
         </div>
     )
 }

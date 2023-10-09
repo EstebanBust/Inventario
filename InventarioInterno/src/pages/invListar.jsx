@@ -1,7 +1,7 @@
-import {InvList} from '../components/InvList'
+import { InvList } from '../components/InvList'
 
-export function Listar(){
-    return(
-      <InvList/>
-      )  
-  }
+export function Listar() {
+  return (
+    <InvList />
+  )
+}

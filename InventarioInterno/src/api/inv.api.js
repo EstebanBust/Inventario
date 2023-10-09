@@ -1,6 +1,9 @@
 import axios from 'axios'
 
 const urlApi = axios.create({ baseURL: 'http://127.0.0.1:8000/inventario/api/' })
+const authToken = sessionStorage.getItem('authToken');
+axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+console.log(axios.defaults.headers.common);
 
 export const getAllReg = () => {
     return urlApi.get("/reg/")
@@ -35,9 +38,13 @@ export const deleteReg = (id) => {
 }
 
 export const putUpdate = (id, reg) => {
-    return urlApi.put("/reg/"+id+"/", reg)
+    return urlApi.put("/reg/" + id + "/", reg)
 }
 
 export const getRegistroPorId = (id) => {
-    return urlApi.get("/reg/"+id+"/")
+    return urlApi.get("/reg/" + id + "/")
+}
+
+export const login = (data) => {
+    return urlApi.post("/login/", data)
 }

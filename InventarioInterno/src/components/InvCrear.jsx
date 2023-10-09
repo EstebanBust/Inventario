@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getArma, getCamara, getCarabina, getEscopeta, getFuncionario, postReg, deleteReg, putUpdate, getRegistroPorId } from '../api/inv.api';
 import { redirect, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 
 export function InvCrear() {
     const [funcionarios, setFuncionarios] = useState([]);
@@ -67,17 +68,19 @@ export function InvCrear() {
         fetchData();
     }, [params.id]);
 
-    
+
 
     const onSubmit = handleSubmit(async (data) => {
         if (params.id) {
             putUpdate(params.id, data)
             navigate("/inventario");
+            toast.success("Modificado exitosamente!");
         } else {
             try {
                 const response = await postReg(data);
                 console.log(data);
                 navigate("/inventario");
+                toast.success("Regustro ingresado con exito!");
 
             } catch (error) {
                 console.error(error);
@@ -87,82 +90,96 @@ export function InvCrear() {
 
 
     return (
-        <div class="container bg-dark text-light">
+        <div className="container bg-dark text-light">
             <form onSubmit={onSubmit}>
-                <div>
-                    <label htmlFor="servicio">Servicio:</label>
-                    <input {...register("servicio", { required: true })} type="text" id="servicio" placeholder="Servicio" />
-                    {errors.servicio && <span>Este campo es requerido</span>}
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label text-center" htmlFor="servicio">Servicio:</label>
+                    <div className="col-sm-10">
+                        <input {...register("servicio", { required: true })} type="text" id="servicio" placeholder="Servicio" />
+                        {errors.servicio && <span>Este campo es requerido</span>}
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="funcionario">Funcionario:</label>
-                    <select {...register("funcionario")} id="funcionario" default="----">
-                        <option value="">-----------</option>
-                        {funcionarios.map((funcionario) => (
-                            <option key={funcionario.id} value={funcionario.id}>
-                                {funcionario.grado + " " + funcionario.nombre}
-                            </option>
-                        ))}
-                    </select>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label text-center" htmlFor="funcionario">Funcionario:</label>
+                    <div className="col-sm-10">
+                        <select {...register("funcionario")} id="funcionario" default="----">
+                            <option value="">-----------</option>
+                            {funcionarios.map((funcionario) => (
+                                <option key={funcionario.id} value={funcionario.id}>
+                                    {funcionario.grado + " " + funcionario.nombre}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="arma">Arma:</label>
-                    <select {...register("arma_puno")} id="arma_puno">
-                        <option value="">-----------</option>
-                        {armas.map((arma) => (
-                            <option key={arma.numero_serie} value={arma.numero_serie}>
-                                {arma.numero_serie}
-                            </option>
-                        ))}
-                    </select>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label text-center" htmlFor="arma">Arma:</label>
+                    <div className="col-sm-10">
+                        <select {...register("arma_puno")} id="arma_puno">
+                            <option value="">-----------</option>
+                            {armas.map((arma) => (
+                                <option key={arma.numero_serie} value={arma.numero_serie}>
+                                    {arma.numero_serie}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="escopeta">¿Tiene Escopeta?:</label>
-                    <input type='checkbox' id='escopeta'{...register("escopeta")}></input>
-                    <select {...register("escopeta_relacion")} id="escopeta_relacion">
-                        <option value="">-----------</option>
-                        {escopetas.map((arma) => (
-                            <option key={arma.numero_serie} value={arma.numero_serie}>
-                                {arma.numero_serie}
-                            </option>
-                        ))}</select>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label text-center" htmlFor="escopeta">¿Tiene Escopeta?:</label>
+                    <div className="col-sm-10">
+                        <input className="check" type='checkbox' id='escopeta'{...register("escopeta")}></input>
+                        <select {...register("escopeta_relacion")} id="escopeta_relacion">
+                            <option value="">-----------</option>
+                            {escopetas.map((arma) => (
+                                <option key={arma.numero_serie} value={arma.numero_serie}>
+                                    {arma.numero_serie}
+                                </option>
+                            ))}</select>
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="camara">¿Tiene Cámara?:</label>
-                    <input type='checkbox' id='camara'{...register("camara")}></input>
-                    <select {...register("camara_relacion")} id="camara_relacion">
-                        <option value="">-----------</option>
-                        {camaras.map((arma) => (
-                            <option key={arma.numero_serie} value={arma.numero_serie}>
-                                {arma.numero_serie}
-                            </option>
-                        ))}</select>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label text-center" htmlFor="camara">¿Tiene Cámara?:</label>
+                    <div className="col-sm-10">
+                        <input className="check" type='checkbox' id='camara'{...register("camara")}></input>
+                        <select {...register("camara_relacion")} id="camara_relacion">
+                            <option value="">-----------</option>
+                            {camaras.map((arma) => (
+                                <option key={arma.numero_serie} value={arma.numero_serie}>
+                                    {arma.numero_serie}
+                                </option>
+                            ))}</select>
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="carabina">¿Tiene Carabina?:</label>
-                    <input type='checkbox' id='carabina_lanza_gases'{...register("carabina_lanza_gases")}></input>
-                    <select {...register("carabina_lanza_gases_relacion")} id="carabina_lanza_gases_relacion">
-                        <option value="">-----------</option>
-                        {carabinas.map((arma) => (
-                            <option key={arma.numero_serie} value={arma.numero_serie}>
-                                {arma.numero_serie}
-                            </option>
-                        ))}</select>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label text-center" htmlFor="carabina">¿Tiene Carabina?:</label>
+                    <div className="col-sm-10">
+                        <input className="check" type='checkbox' id='carabina_lanza_gases'{...register("carabina_lanza_gases")}></input>
+                        <select {...register("carabina_lanza_gases_relacion")} id="carabina_lanza_gases_relacion">
+                            <option value="">-----------</option>
+                            {carabinas.map((arma) => (
+                                <option key={arma.numero_serie} value={arma.numero_serie}>
+                                    {arma.numero_serie}
+                                </option>
+                            ))}</select>
+                    </div>
                 </div>
 
-                <div>
-                    <label htmlFor="extra">Otro cargo(requerido):</label>
-                    <textarea {...register("extra")} id="extra" cols="30" rows="7" placeholder="Otro cargo"></textarea>
-                    {errors.extra && <span>Este campo es requerido</span>}
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label text-center" htmlFor="extra">Otro cargo(requerido):</label>
+                    <div className="col-sm-10">
+                        <textarea className="form-control" {...register("extra")} id="extra" cols="30" rows="7" placeholder="Otro cargo"></textarea>
+                        {errors.extra && <span>Este campo es requerido</span>}
+                    </div>
                 </div>
-                {params.id && <p><label htmlFor="finalizado">Marcar como finalizado?:</label><input {...register("finalizado")} type='checkbox' id='finalizado'/></p>}
-                <button type="submit">Guardar</button>
-                {params.id && <button onClick={() => {
+                {params.id && <p className="border rounded border-danger"><label className="col-sm-2 col-form-label text-center " htmlFor="finalizado">Marcar como finalizado?:</label><input className="check" {...register("finalizado")} type='checkbox' id='finalizado' /></p>}
+                <button className="btn btn-primary" type="submit">Guardar</button>
+                {params.id && <button className="btn btn-success" onClick={() => {
                     const accepted = window.confirm('estas seguro?')
                     if (accepted) {
                         deleteReg(params.id)

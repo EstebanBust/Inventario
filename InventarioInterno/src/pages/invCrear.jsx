@@ -1,7 +1,7 @@
-import {InvCrear} from '../components/InvCrear'
+import { InvCrear } from '../components/InvCrear'
 
-export function Crear(){
-    return(
-      <InvCrear/>
-      )  
-  }
+export function Crear() {
+  return (
+    <InvCrear />
+  )
+}

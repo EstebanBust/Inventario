@@ -1,3 +1,27 @@
 body{
-    background-color: grey;
+    background-color: lightgreen;
+}
+.card{
+    margin: 10px;
+}
+h1{
+    text-align: center;
+}
+.check{
+    margin-right: 10px;
+}
+button{
+    margin: 20px;
+}
+.border{
+    margin:10px;
+}
+.container{
+    margin-top: 10px;
+}
+.form-group{
+    padding-top: 10px;
+}
+li{
+    margin-left: 10px;
 }
