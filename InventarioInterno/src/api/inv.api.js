@@ -2,8 +2,9 @@ import axios from 'axios'
 
 const urlApi = axios.create({ baseURL: 'http://127.0.0.1:8000/inventario/api/' })
 const authToken = sessionStorage.getItem('authToken');
-axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
-console.log(axios.defaults.headers.common);
+if (authToken) {
+    urlApi.defaults.headers.common['Authorization'] = `Token ${authToken}`;
+}
 
 export const getAllReg = () => {
     return urlApi.get("/reg/")

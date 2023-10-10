@@ -10,27 +10,28 @@ export function LoginForm() {
     const { register, handleSubmit } = useForm();
 
     const onSubmit = handleSubmit(async (data) => {
-        try{
+        try {
             const response = await login(data);
             sessionStorage.setItem('authToken', response.data.token);
-            navigate('/inventario');
+            navigate("/inventario");
+            window.location.reload();
             toast.success("Login con exito!");
-        }catch{
+        } catch {
             console.error(error);
         }
-        
+
     });
 
     return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
                 <label htmlFor="user">Usuario</label>
-                <input {...register("username")}type="user" className="form-control" id="user" aria-describedby="userHelp" placeholder="Ingrese user"/>
+                <input {...register("username")} type="user" className="form-control" id="user" aria-describedby="userHelp" placeholder="Ingrese user" />
                 <small id="userHelp" className="form-text text-muted">No comparta sus datos de usuario.</small>
             </div>
             <div className="form-group">
                 <label htmlFor="password">Contraseña</label>
-                <input {...register("password")}type="password" className="form-control" id="password" placeholder="Contraseña"/>
+                <input {...register("password")} type="password" className="form-control" id="password" placeholder="Contraseña" />
             </div>
             <div className="form-check">
                 {/* <input type="checkbox" className="form-check-input" id="exampleCheck1"/> */}

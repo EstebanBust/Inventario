@@ -16,7 +16,7 @@ function App() {
         <Route path='/inventario' element={<Listar />} />
         <Route path='/inventario/crear' element={<Crear />} />
         <Route path='/inventario/:id' element={<Crear/>}/>
-        <Route path='/login/' element={<Login/>}/>
+        <Route path='/login' element={<Login/>}/>
       </Routes>
       <Toaster/>
     </BrowserRouter>

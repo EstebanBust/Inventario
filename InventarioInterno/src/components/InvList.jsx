@@ -9,7 +9,6 @@ export function InvList() {
         async function loadInv() {
             try {
                 const res = await getAllReg();
-                console.log("Respuesta de la consulta:", res);
                 // Verifica si res.data es un arreglo válido antes de actualizar el estado.
                 if (Array.isArray(res.data)) {
                     setRegistros(res.data);
