@@ -1,11 +1,9 @@
-from .models import Registro  # Importa el modelo Registro
+from .models import Registro
 from rest_framework import viewsets
 from .serializer import *
 from .models import *
-from django.contrib.auth import authenticate, login, logout
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
-
 
 class InventarioView(viewsets.ModelViewSet):
     serializer_class = InventarioSerializer
