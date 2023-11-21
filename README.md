@@ -1,4 +1,4 @@
-Proyecto de cinvalidacion de practica, Iacc(2023).
+Proyecto de validacion de practica, Iacc(2023).
 El proyecto consiste en un inventario realizado en Django Rest Framework:
 esta parte del proyecto se encuentra en los directorios de Inventario y inverno_inventario_api
 
